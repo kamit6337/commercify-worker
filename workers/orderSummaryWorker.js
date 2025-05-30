@@ -1,0 +1,57 @@
+import { Worker } from "bullmq";
+import Buy from "../models/BuyModel.js";
+import redisClient from "../redis/redisClient.js";
+import renderOrderSummary from "../templates/renderOrderSummary.js";
+import sendingEmail from "../utils/email/email.js";
+
+const bullConnection = redisClient.duplicate();
+
+const worker = new Worker(
+  "new-order-summary",
+  async (job) => {
+    try {
+      const { orderId } = job.data;
+
+      const buys = await Buy.find({
+        orderId,
+      })
+        .populate([
+          {
+            path: "user",
+          },
+          {
+            path: "product",
+          },
+          {
+            path: "address",
+          },
+        ])
+        .lean();
+
+      const email = buys[0].user.email;
+
+      const html = await renderOrderSummary(buys);
+
+      await sendingEmail(email, "Order Summary", html);
+    } catch (error) {
+      console.error("Worker error:", error);
+      throw error; // BullMQ will retry automatically
+    }
+  },
+  { connection: bullConnection }
+);
+
+// --- Worker Events ---
+worker.on("completed", (job) => {
+  console.log(`[Worker] Job ${job.id} of Order Summary completed`);
+});
+
+worker.on("failed", (job, err) => {
+  console.error(`[Worker] Job ${job.id} of Order Summary failed:`, err);
+});
+
+worker.on("error", (err) => {
+  console.error(`[Worker] Worker of Order Summary error:`, err);
+});
+
+console.log("[Worker] Order Summary batch worker started");
