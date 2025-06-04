@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 import "./UserModel.js";
 import "./ProductModel.js";
-import "./AddressModels.js";
+import "./AddressModel.js";
+import "./CountryModel.js";
 
 const buySchema = new mongoose.Schema({
   product: {
@@ -13,6 +14,10 @@ const buySchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
+  },
+  isReviewed: {
+    type: Boolean,
+    default: false,
   },
   orderId: {
     type: String,
@@ -28,8 +33,17 @@ const buySchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  buyPrice: {
+    type: Number,
+    required: true,
+  },
   exchangeRate: {
     type: Number,
+    required: true,
+  },
+  country: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Country",
     required: true,
   },
   quantity: {

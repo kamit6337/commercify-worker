@@ -1,12 +1,13 @@
 import { Worker } from "bullmq";
-import redisClient from "../redis/redisClient.js";
-import Address from "../models/AddressModels.js";
-import Buy from "../models/BuyModel.js";
+import redisClient, { redisPub } from "../../redis/redisClient.js";
+import Address from "../../models/AddressModel.js";
+import Buy from "../../models/BuyModel.js";
 import {
   deleteUserOrderByOrderId,
   getUserOrderCheckoutFromRedis,
-} from "../redis/order/userCheckout.js";
-import addNewOrder from "../queues/emailQueues/orderSummary.js";
+} from "../../redis/order/userCheckout.js";
+import addNewOrder from "../../queues/orders/orderSummary.js";
+import Stock from "../../models/StockModel.js";
 
 const bullConnection = redisClient.duplicate();
 
@@ -41,6 +42,7 @@ const worker = new Worker(
           stripeId,
           product: buy.product._id,
           address: addNewAddress._id,
+          country: buy.country._id,
         };
       });
 
@@ -51,6 +53,21 @@ const worker = new Worker(
       if (isDeleted) {
         console.log(`Deleted ${orderId} successfully`);
       }
+
+      const productIds = buyObjs.map((buy) => buy.product);
+
+      const updateStocks = await Stock.updateMany(
+        {
+          product: { $in: productIds },
+        },
+        {
+          $inc: { stock: -1 },
+        }
+      );
+
+      console.log("update stocks", updateStocks);
+
+      await redisPub.publish("update-stocks", JSON.stringify(productIds));
 
       await addNewOrder(orderId);
     } catch (error) {

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Delivered</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 2rem;
+        background-color: #f9f9f9;
+        color: #333;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+
+      h4 {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      h3 {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .product-list {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+      }
+
+      .product-card {
+        display: flex;
+        background-color: #fff;
+        border-bottom: 1px solid #ddd;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .product-card:last-child {
+        border: none;
+      }
+
+      /* .product-image-div {
+        padding: 16px;
+        width: 150px;
+        flex-shrink: 0;
+      } */
+
+      .product-image {
+        width: 150px;
+        height: 200px;
+        flex-shrink: 0;
+        object-fit: cover;
+        display: block;
+      }
+
+      .product-info {
+        padding: 1rem;
+        flex: 1;
+      }
+
+      .product-info h2 {
+        margin: 0 0 0.5rem;
+        font-size: 1.2rem;
+      }
+
+      .product-info p {
+        margin: 0.3rem 0;
+      }
+
+      .summary {
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        background-color: #fff;
+        padding: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+      }
+
+      .address {
+        margin-top: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Order Delivered</h1>
+    <h4>
+      Your order has been successfully delivered. Please rate this product later
+      on.
+    </h4>
+    <div class="product-list">
+      <% let totalPrice = 0; %> <% buys.forEach((buy) => { totalPrice +=
+      buy.buyPrice * buy.quantity; %>
+      <div class="product-card">
+        <img
+          class="product-image"
+          src="<%= buy.product.thumbnail %>"
+          alt="<%= buy.product.title %>"
+        />
+        <div class="product-info">
+          <h2><%= buy.product.title %></h2>
+          <p><%= buy.product.description %></p>
+          <p>
+            <strong>Price:</strong> <%= buy.country.currency.symbol %><%=
+            buy.price.toFixed(2) %>
+          </p>
+          <p><strong>Quantity:</strong> <%= buy.quantity %></p>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+
+    <div class="summary">
+      <h2>Shipping Address</h2>
+      <% const addr = buys[0].address; %>
+      <div class="address">
+        <p><%= addr.name %></p>
+        <p><%= addr.address %></p>
+        <p><%= addr.district %>, <%= addr.state %></p>
+        <p><%= addr.country %></p>
+        <p>
+          <strong>Phone:</strong> <%= addr.dial_code %> - <%= addr.mobile %>
+        </p>
+      </div>
+
+      <% const symbol = buys[0].country.currency.symbol; %>
+      <div class="total">
+        Total Price: <%= symbol %><%= totalPrice.toFixed(2) %>
+      </div>
+    </div>
+    <h3>Thank you for doing shopping at Commercify. Please come again</h3>
+  </body>
+</html>

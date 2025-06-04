@@ -101,7 +101,7 @@
     </h4>
     <div class="product-list">
       <% let totalPrice = 0; %> <% buys.forEach((buy) => { totalPrice +=
-      buy.price * buy.quantity; %>
+      buy.buyPrice * buy.quantity; %>
       <div class="product-card">
         <img
           class="product-image"
@@ -111,7 +111,10 @@
         <div class="product-info">
           <h2><%= buy.product.title %></h2>
           <p><%= buy.product.description %></p>
-          <p><strong>Price:</strong> $<%= buy.price.toFixed(2) %></p>
+          <p>
+            <strong>Price:</strong> <%= buy.country.currency.symbol %><%=
+            buy.price.toFixed(2) %>
+          </p>
           <p><strong>Quantity:</strong> <%= buy.quantity %></p>
         </div>
       </div>
@@ -131,7 +134,10 @@
         </p>
       </div>
 
-      <div class="total">Total Price: $<%= totalPrice.toFixed(2) %></div>
+      <% const symbol = buys[0].country.currency.symbol; %>
+      <div class="total">
+        Total Price: <%= symbol %><%= totalPrice.toFixed(2) %>
+      </div>
     </div>
     <h3>Thank you for doing shopping at Commercify. Please come again</h3>
   </body>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Available</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 2rem;
+        background-color: #f9f9f9;
+        color: #333;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+
+      h4 {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      h3 {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .product-card {
+        display: flex;
+        background-color: #fff;
+        border-bottom: 1px solid #ddd;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .product-card:last-child {
+        border: none;
+      }
+
+      /* .product-image-div {
+        padding: 16px;
+        width: 150px;
+        flex-shrink: 0;
+      } */
+
+      .product-image {
+        width: 150px;
+        height: 200px;
+        flex-shrink: 0;
+        object-fit: cover;
+        display: block;
+      }
+
+      .product-info {
+        padding: 1rem;
+        flex: 1;
+      }
+
+      .product-info h2 {
+        margin: 0 0 0.5rem;
+        font-size: 1.2rem;
+      }
+
+      .product-info p {
+        margin: 0.3rem 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Product Available</h1>
+    <h4>Product comes from out of stock.</h4>
+    <a href="<%= productLink %>">
+      <div class="product-card">
+        <img
+          class="product-image"
+          src="<%= notify.product.thumbnail %>"
+          alt="<%= notify.product.title %>"
+        />
+        <div class="product-info">
+          <h2><%= notify.product.title %></h2>
+          <p><%= notify.product.description %></p>
+        </div>
+      </div>
+    </a>
+    <h3>Thank you for doing shopping at Commercify. Please come again</h3>
+  </body>
+</html>

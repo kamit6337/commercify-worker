@@ -1,8 +1,8 @@
 import { Worker } from "bullmq";
-import Buy from "../models/BuyModel.js";
-import redisClient from "../redis/redisClient.js";
-import renderOrderSummary from "../templates/renderOrderSummary.js";
-import sendingEmail from "../utils/email/email.js";
+import Buy from "../../models/BuyModel.js";
+import redisClient from "../../redis/redisClient.js";
+import { renderOrderSummary } from "../../templates/renderEJS.js";
+import sendingEmail from "../../utils/email/email.js";
 
 const bullConnection = redisClient.duplicate();
 
@@ -25,6 +25,9 @@ const worker = new Worker(
           {
             path: "address",
           },
+          {
+            path: "country",
+          },
         ])
         .lean();
 
@@ -38,7 +41,7 @@ const worker = new Worker(
       throw error; // BullMQ will retry automatically
     }
   },
-  { connection: bullConnection }
+  { connection: bullConnection, concurrency: 5 }
 );
 
 // --- Worker Events ---
