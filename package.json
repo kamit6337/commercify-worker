@@ -10,7 +10,10 @@
     "update": "node ./update/update.js",
     "crypto": "node ./update/generateHexCode.js",
     "test": "jest",
-    "test:watch": "jest --watchAll"
+    "test:watch": "jest --watchAll",
+    "tag:major": "node ./git/bump-major.js",
+    "tag:minor": "node ./git/bump-minor.js",
+    "tag:patch": "node ./git/bump-patch.js"
   },
   "keywords": [],
   "author": "",

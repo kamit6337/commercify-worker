@@ -1,0 +1,77 @@
+Lightweight tag (like a bookmark, no metadata):
+    git tag v1.0.0
+
+Annotated tag (recommended: includes message, author, date):
+    git tag -a v1.0.0 -m "Release version 1.0.0"
+
+List all tags
+    git tag
+
+All tags filter by prefix:
+    git tag -l "v1.*"
+
+Push a single tag:
+    git push origin v1.0.0
+
+Push all local tags:
+    git push origin --tags
+
+Delete tag locally:
+    git tag -d v1.0.0
+
+Delete tag from GitHub:
+    git push origin --delete tag v1.0.0
+
+
+Tags are typically attached to commits and are not mutable by default.
+If you want to move to a tag:
+    git checkout v1.0.0
+
+This puts you in a detached HEAD state — meaning you're not on a branch. Any changes you make won’t be on a named branch unless you create one.
+
+
+Create a new branch from a tag
+To continue working from a tag (e.g., for hotfix):
+    git checkout -b hotfix-from-v1 v1.0.0
+Now you're on a branch (hotfix-from-v1) based on tag v1.0.0.
+
+
+Update/Retag (change tag to a different commit)
+Git tags are immutable, so you have to delete and re-create:
+    # Force update tag to current HEAD
+    git tag -d v1.0.0
+    git tag -a v1.0.0 -m "Updated release v1.0.0"
+    git push origin --force tag v1.0.0
+
+
+
+
+
+
+
+To move from a current tag (e.g. v3.0.2) back to an older tag (e.g. v2.3.4) and start new development from there, follow these steps:
+
+Git tags are like bookmarks — they point to specific commits. So first, you check it out as a detached state:
+    git checkout tags/v2.3.4
+
+Now you’re in a “detached HEAD” state — meaning you are not on any branch. Any commits from here would not belong to a branch unless you create one.
+
+
+To continue development, you need to create a new branch:
+    git checkout -b feature/from-v2.3.4
+
+Do your changes, then:
+    git add .
+    git commit -m "New changes from v2.3.4 base"
+
+
+(Optional) Tag this new version
+    git tag -a v2.3.5 -m "Release v2.3.5"
+    git push origin feature/from-v2.3.4
+    git push origin v2.3.5
+
+
+Notes:
+Your original main or master branch still stays at v3.0.2. You're not deleting or changing it.
+
+This approach is useful when you want to maintain multiple release tracks (like v2.x.x and v3.x.x) in parallel.
