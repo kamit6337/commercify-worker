@@ -16,6 +16,8 @@ const worker = new Worker(
     try {
       const notify = job.data;
 
+      console.log("notify", notify);
+
       const productId = notify.product._id;
       const userId = notify.user._id;
 

@@ -11,6 +11,9 @@ const worker = new Worker(
     try {
       const { productId, notifyType } = job.data;
 
+      console.log("productId", productId);
+      console.log("notifyType", notifyType);
+
       const notifies = await ProductNotify.find({
         product: productId,
         notifyType,
@@ -24,6 +27,13 @@ const worker = new Worker(
           },
         ])
         .lean();
+
+      console.log("notifies", notifies);
+
+      if (notifies.length === 0) {
+        console.log("notifies", "No notifies avaliable");
+        return;
+      }
 
       await productNotifyEmail(notifies);
     } catch (error) {

@@ -10,7 +10,7 @@ const emailQueue = new Queue("product-notify-email", {
 const productNotifyEmail = async (notifies) => {
   const jobs = notifies.map((notify) => ({
     name: "notify",
-    data: { notify: notify },
+    data: notify,
     opts: {
       attempts: 3,
       backoff: { type: "exponential", delay: 2000 },

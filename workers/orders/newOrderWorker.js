@@ -16,6 +16,7 @@ const worker = new Worker(
   async (job) => {
     try {
       const { orderId, stripeId } = job.data;
+      console.log("saving new order", orderId);
 
       const buys = await getUserOrderCheckoutFromRedis(orderId);
 
