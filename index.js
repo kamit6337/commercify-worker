@@ -6,12 +6,14 @@ import connectToDB from "./lib/connectToDB.js";
 const PORT = environment.PORT || 8080;
 import "./workers/worker.js";
 
+const app = express();
 try {
-  const app = express();
-
   console.log("Connecting to MongoDB...");
-
   await connectToDB();
+
+  app.get("/", (req, res) => {
+    res.json("Commercify-Worker home page");
+  });
 
   app.listen(PORT, () => {
     console.log(`Server is connected on port ${PORT}`);
