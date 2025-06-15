@@ -12,7 +12,7 @@ try {
   await connectToDB();
 
   app.get("/", (req, res) => {
-    res.json("Commercify-Worker home page");
+    res.json("Commercify-Worker Home Page");
   });
 
   app.listen(PORT, () => {
