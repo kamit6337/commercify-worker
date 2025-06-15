@@ -10,14 +10,6 @@ const productSchema = new Schema(
       type: String,
       required: [true, "Please provide description to product"],
     },
-    price: {
-      type: Number,
-      required: [true, "Price should be provided to product"],
-    },
-    discountPercentage: {
-      type: Number,
-      default: 0,
-    },
     deliveredBy: {
       type: Number,
       default: null,
