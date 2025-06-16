@@ -1,9 +1,9 @@
 import { Worker } from "bullmq";
-import redisClient from "../../redis/redisClient.js";
+import redisClient, { createWorkerRedis } from "../../redis/redisClient.js";
 import ProductNotify from "../../models/ProductNotify.js";
 import productNotifyEmail from "../../queues/product_notify/productNotify.js";
 
-const bullConnection = redisClient.duplicate();
+const bullConnection = createWorkerRedis();
 
 const worker = new Worker(
   "product-notify",

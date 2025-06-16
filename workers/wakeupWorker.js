@@ -1,7 +1,9 @@
 import { Worker } from "bullmq";
-import redisClient from "../redis/redisClient.js";
+import redisClient, { createWorkerRedis } from "../redis/redisClient.js";
 
-const bullConnection = redisClient.duplicate();
+// const bullConnection = redisClient.duplicate();
+
+const bullConnection = createWorkerRedis();
 
 const worker = new Worker(
   "wakeup-notify",

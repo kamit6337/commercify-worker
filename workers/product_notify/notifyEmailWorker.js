@@ -1,5 +1,5 @@
 import { Worker } from "bullmq";
-import redisClient from "../../redis/redisClient.js";
+import redisClient, { createWorkerRedis } from "../../redis/redisClient.js";
 import { environment } from "../../utils/environment.js";
 import {
   renderProductGainStock,
@@ -8,7 +8,7 @@ import {
 import sendingEmail from "../../utils/email/email.js";
 import ProductNotify from "../../models/ProductNotify.js";
 
-const bullConnection = redisClient.duplicate();
+const bullConnection = createWorkerRedis();
 
 const worker = new Worker(
   "product-notify-email",

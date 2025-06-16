@@ -1,10 +1,10 @@
 import { Worker } from "bullmq";
 import Buy from "../../models/BuyModel.js";
-import redisClient from "../../redis/redisClient.js";
+import redisClient, { createWorkerRedis } from "../../redis/redisClient.js";
 import { renderOrderSummary } from "../../templates/renderEJS.js";
 import sendingEmail from "../../utils/email/email.js";
 
-const bullConnection = redisClient.duplicate();
+const bullConnection = createWorkerRedis();
 
 const worker = new Worker(
   "new-order-summary",

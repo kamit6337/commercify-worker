@@ -1,5 +1,8 @@
 import { Worker } from "bullmq";
-import redisClient, { redisPub } from "../../redis/redisClient.js";
+import redisClient, {
+  createWorkerRedis,
+  redisPub,
+} from "../../redis/redisClient.js";
 import Address from "../../models/AddressModel.js";
 import Buy from "../../models/BuyModel.js";
 import {
@@ -9,7 +12,7 @@ import {
 import addNewOrder from "../../queues/orders/orderSummary.js";
 import Stock from "../../models/StockModel.js";
 
-const bullConnection = redisClient.duplicate();
+const bullConnection = createWorkerRedis();
 
 const worker = new Worker(
   "new-order",
