@@ -1,7 +1,7 @@
 import { Queue } from "bullmq";
-import redisClient from "../../redis/redisClient.js";
+import redisClient, { createWorkerRedis } from "../../redis/redisClient.js";
 
-const bullConnection = redisClient.duplicate();
+const bullConnection = createWorkerRedis();
 
 const emailQueue = new Queue("new-order-summary", {
   connection: bullConnection,
